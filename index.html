@@ -1,571 +1,204 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Upload a Tip</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit a Tip</title>
+
   <style>
-    :root{
-      --bg1:#0b1220;
-      --bg2:#121a2b;
-      --card:#0f172a;
-      --card2:#0b1325;
-      --text:#e7eefc;
-      --muted:#9fb0d0;
-      --line:rgba(255,255,255,.10);
-      --shadow: 0 18px 60px rgba(0,0,0,.45);
-      --radius: 20px;
-      --radius2: 14px;
-      --pad: 18px;
-      --max: 980px;
+    :root {
+      --primary: #1d4ed8;
+      --border: #e5e7eb;
+      --bg: #f9fafb;
+      --text: #111827;
+      --muted: #6b7280;
+      --radius: 14px;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(1200px 800px at 20% 15%, rgba(99,102,241,.22), transparent 60%),
-        radial-gradient(900px 700px at 85% 30%, rgba(34,211,238,.18), transparent 55%),
-        radial-gradient(900px 800px at 40% 90%, rgba(168,85,247,.14), transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      padding: 24px 16px 40px;
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    .wrap{
-      width:100%;
-      max-width: var(--max);
-    }
-
-    header{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 14px;
-      margin-bottom: 16px;
-      padding: 4px 2px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap: 12px;
-    }
-
-    .logo{
-      width:42px; height:42px;
-      border-radius: 14px;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255,255,255,.25), transparent 40%),
-        linear-gradient(135deg, rgba(99,102,241,.95), rgba(34,211,238,.85));
-      box-shadow: 0 12px 40px rgba(34,211,238,.18);
-      border:1px solid rgba(255,255,255,.18);
-      flex: 0 0 auto;
-    }
-
-    h1{
-      font-size: 18px;
-      line-height: 1.2;
-      margin:0;
-      letter-spacing:.2px;
-    }
-
-    .sub{
-      margin: 2px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 900px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
-    .card{
-      background: rgba(15,23,42,.72);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      border-radius: var(--radius);
-      overflow:hidden;
-      backdrop-filter: blur(10px);
-    }
-
-    .cardHeader{
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.06), transparent);
-    }
-
-    .cardHeader strong{
-      font-size: 14px;
-      letter-spacing:.2px;
-      display:block;
-      margin-bottom: 4px;
-    }
-
-    .cardHeader span{
-      color: var(--muted);
-      font-size: 12.5px;
-    }
-
-    .content{ padding: 18px; }
-
-    .field{ margin-bottom: 14px; }
-    label{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      font-size: 12.5px;
-      color: var(--muted);
-      margin: 0 0 8px;
-    }
-
-    .hint{
-      font-size: 12px;
-      color: rgba(159,176,208,.85);
-    }
-
-    input[type="text"], textarea{
-      width:100%;
-      border-radius: var(--radius2);
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(11,19,37,.75);
-      color: var(--text);
-      padding: 12px 12px;
-      outline:none;
-      transition: border .15s ease, transform .05s ease;
-    }
-    input[type="text"]:focus, textarea:focus{
-      border-color: rgba(34,211,238,.55);
-      box-shadow: 0 0 0 4px rgba(34,211,238,.10);
-    }
-    textarea{
-      min-height: 110px;
-      resize: vertical;
-      line-height: 1.4;
-    }
-
-    .drop{
-      border: 1px dashed rgba(255,255,255,.20);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border-radius: var(--radius);
-      padding: 14px;
-    }
-
-    .dropInner{
-      border-radius: calc(var(--radius) - 6px);
-      background: rgba(11,19,37,.55);
-      border: 1px solid rgba(255,255,255,.10);
-      padding: 14px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size: 12.5px;
-      color: var(--muted);
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      white-space: nowrap;
-    }
-
-    .btnRow{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content:flex-end;
-      margin-top: 16px;
-    }
-
-    button{
-      border:none;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-weight: 600;
-      font-size: 14px;
-      cursor:pointer;
-      transition: transform .06s ease, filter .15s ease, opacity .15s ease;
-    }
-    button:active{ transform: translateY(1px); }
-
-    .primary{
-      color: #04101b;
-      background: linear-gradient(135deg, rgba(34,211,238,1), rgba(99,102,241,1));
-      box-shadow: 0 12px 40px rgba(99,102,241,.18);
-    }
-    .primary:hover{ filter: brightness(1.03); }
-
-    .ghost{
-      color: var(--text);
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.14);
-    }
-    .ghost:hover{ filter: brightness(1.06); }
-
-    .mutedBtn{
-      color: rgba(231,238,252,.9);
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.10);
-      opacity:.9;
-    }
-
-    /* Preview panel */
-    .previewWrap{
-      padding: 18px;
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-    }
-
-    .previewCard{
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: rgba(11,19,37,.55);
-      overflow:hidden;
-      min-height: 320px;
-    }
-
-    .media{
-      width:100%;
-      aspect-ratio: 16/10;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), transparent);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-    }
-
-    .media img, .media video{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      display:none;
-    }
-
-    .emptyState{
-      padding: 22px;
-      text-align:center;
-      color: var(--muted);
-      max-width: 360px;
-    }
-    .emptyState b{ color: var(--text); }
-    .emptyState small{ display:block; margin-top: 8px; opacity:.9; }
-
-    .meta{
-      padding: 14px 16px 16px;
-      border-top: 1px solid var(--line);
-    }
-
-    .meta h2{
-      font-size: 15px;
-      margin: 0 0 8px;
-      letter-spacing:.2px;
-    }
-    .meta p{
-      margin:0;
-      color: rgba(159,176,208,.95);
-      font-size: 13px;
-      line-height: 1.45;
-      white-space: pre-wrap;
-    }
-
-    .fileLine{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      color: var(--muted);
-      font-size: 12.5px;
-    }
-
-    .fileName{
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      max-width: 72%;
-    }
-
-    .note{
-      color: rgba(159,176,208,.9);
-      font-size: 12px;
-      line-height: 1.5;
+    body {
       margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      padding: 20px;
     }
 
-    /* Hide native file input */
-    input[type="file"]{
-      position:absolute;
-      left:-9999px;
-      opacity:0;
+    .container {
+      max-width: 760px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+
+    p.subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      font-size: 18px;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin-bottom: 22px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input[type="file"] {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .hint {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: -14px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      font-size: 18px;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .submit {
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+
+    .submit:hover {
+      background: #1e40af;
+    }
+
+    .preview {
+      margin-top: 30px;
+    }
+
+    .preview h2 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .preview-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: #f8fafc;
+    }
+
+    .preview-box img,
+    .preview-box video {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      display: none;
+    }
+
+    .preview-title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .preview-desc {
+      font-size: 16px;
+      color: var(--muted);
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <h1>Submit a Tip</h1>
-          <p class="sub">Upload a photo or video from your device and add a short description.</p>
-        </div>
+  <div class="container">
+    <h1>Submit a Tip</h1>
+    <p class="subtitle">
+      Upload a photo or video and describe what you saw.
+    </p>
+
+    <div class="card">
+      <label>Title</label>
+      <input id="title" type="text" placeholder="Example: Broken light near school entrance" />
+
+      <label>Description</label>
+      <textarea id="desc" placeholder="Add details such as location, time, and what happened..."></textarea>
+
+      <label>Upload Photo or Video</label>
+      <input id="file" type="file" accept="image/*,video/*" />
+      <div class="hint">Photos or short videos from your phone or computer</div>
+
+      <button class="submit">Submit Tip</button>
+    </div>
+
+    <div class="preview">
+      <h2>Preview</h2>
+      <div class="preview-box">
+        <img id="imgPreview" />
+        <video id="videoPreview" controls></video>
+        <div class="preview-title" id="pTitle">Your title will appear here</div>
+        <div class="preview-desc" id="pDesc">Your description will appear here.</div>
       </div>
-      <div class="pill" title="Mobile-friendly layout">
-        📱 Responsive
-      </div>
-    </header>
-
-    <main class="grid">
-      <!-- Form -->
-      <section class="card" aria-label="Tip upload form">
-        <div class="cardHeader">
-          <strong>Tip Details</strong>
-          <span>Choose a photo/video, then add a title and description.</span>
-        </div>
-
-        <div class="content">
-          <form id="tipForm">
-            <div class="field">
-              <label for="title">
-                Title
-                <span class="hint">Short and clear</span>
-              </label>
-              <input id="title" name="title" type="text" maxlength="80" placeholder="Example: Broken streetlight near the park" />
-            </div>
-
-            <div class="field">
-              <label for="desc">
-                Description
-                <span class="hint">What happened? Where/when?</span>
-              </label>
-              <textarea id="desc" name="desc" maxlength="800" placeholder="Add helpful context: location, time, and what you observed..."></textarea>
-            </div>
-
-            <div class="field">
-              <label>
-                Upload (Photo or Video)
-                <span class="hint">From phone or computer</span>
-              </label>
-
-              <div class="drop">
-                <div class="dropInner">
-                  <div class="pill">📷 Photos: JPG/PNG/HEIC</div>
-                  <div class="pill">🎥 Videos: MP4/MOV</div>
-
-                  <!-- Custom file button -->
-                  <div class="btnRow" style="margin-top:0;">
-                    <input
-                      id="file"
-                      name="file"
-                      type="file"
-                      accept="image/*,video/*"
-                    />
-                    <button class="ghost" type="button" id="chooseBtn">Choose File</button>
-                    <button class="mutedBtn" type="button" id="clearBtn">Clear</button>
-                  </div>
-                </div>
-
-                <div style="margin-top: 12px;">
-                  <div class="fileLine" aria-live="polite">
-                    <span class="fileName" id="fileName">No file selected</span>
-                    <span id="fileInfo">—</span>
-                  </div>
-                </div>
-
-                <p class="note" style="margin-top:10px;">
-                  Your upload stays on your device until you submit (this demo shows a local preview only).
-                </p>
-              </div>
-            </div>
-
-            <div class="btnRow">
-              <button class="ghost" type="reset">Reset</button>
-              <button class="primary" type="submit">Submit Tip</button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      <!-- Preview -->
-      <aside class="card" aria-label="Preview">
-        <div class="cardHeader">
-          <strong>Preview</strong>
-          <span>See how your tip will look before submitting.</span>
-        </div>
-
-        <div class="previewWrap">
-          <div class="previewCard">
-            <div class="media" id="mediaArea">
-              <img id="imgPreview" alt="Selected image preview" />
-              <video id="videoPreview" controls playsinline></video>
-
-              <div class="emptyState" id="emptyState">
-                <b>No upload yet</b>
-                <small>Choose a photo or video to show a preview here.</small>
-              </div>
-            </div>
-
-            <div class="meta">
-              <h2 id="pTitle">Your title will appear here</h2>
-              <p id="pDesc">Your description will appear here.</p>
-            </div>
-          </div>
-
-          <p class="note">
-            Tip: On mobile, your camera roll will open automatically. You can also record a video and upload it.
-          </p>
-        </div>
-      </aside>
-    </main>
+    </div>
   </div>
 
   <script>
-    const form = document.getElementById("tipForm");
     const title = document.getElementById("title");
     const desc = document.getElementById("desc");
-    const fileInput = document.getElementById("file");
-
-    const chooseBtn = document.getElementById("chooseBtn");
-    const clearBtn = document.getElementById("clearBtn");
-
-    const fileName = document.getElementById("fileName");
-    const fileInfo = document.getElementById("fileInfo");
-
+    const file = document.getElementById("file");
     const pTitle = document.getElementById("pTitle");
     const pDesc = document.getElementById("pDesc");
-
     const imgPreview = document.getElementById("imgPreview");
     const videoPreview = document.getElementById("videoPreview");
-    const emptyState = document.getElementById("emptyState");
 
-    let objectUrl = null;
+    title.oninput = () => pTitle.textContent = title.value || "Your title will appear here";
+    desc.oninput = () => pDesc.textContent = desc.value || "Your description will appear here.";
 
-    function formatBytes(bytes){
-      if (!bytes && bytes !== 0) return "";
-      const units = ["B","KB","MB","GB"];
-      let i = 0;
-      let n = bytes;
-      while (n >= 1024 && i < units.length - 1){
-        n = n / 1024;
-        i++;
-      }
-      return `${n.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
-    }
+    file.onchange = () => {
+      const f = file.files[0];
+      if (!f) return;
 
-    function clearPreview(){
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
-      objectUrl = null;
-
+      const url = URL.createObjectURL(f);
       imgPreview.style.display = "none";
       videoPreview.style.display = "none";
-      videoPreview.pause();
-      videoPreview.removeAttribute("src");
-      imgPreview.removeAttribute("src");
 
-      emptyState.style.display = "block";
-
-      fileName.textContent = "No file selected";
-      fileInfo.textContent = "—";
-      fileInput.value = "";
-    }
-
-    function setPreviewFromFile(file){
-      if (!file) return;
-
-      if (objectUrl) URL.revokeObjectURL(objectUrl);
-      objectUrl = URL.createObjectURL(file);
-
-      const isImage = file.type.startsWith("image/");
-      const isVideo = file.type.startsWith("video/");
-
-      imgPreview.style.display = "none";
-      videoPreview.style.display = "none";
-      emptyState.style.display = "none";
-
-      if (isImage){
-        imgPreview.src = objectUrl;
+      if (f.type.startsWith("image")) {
+        imgPreview.src = url;
         imgPreview.style.display = "block";
-      } else if (isVideo){
-        videoPreview.src = objectUrl;
-        videoPreview.style.display = "block";
       } else {
-        emptyState.style.display = "block";
+        videoPreview.src = url;
+        videoPreview.style.display = "block";
       }
-
-      fileName.textContent = file.name || "Selected file";
-      fileInfo.textContent = `${file.type || "file"} • ${formatBytes(file.size)}`;
-    }
-
-    // Live text preview
-    function syncText(){
-      pTitle.textContent = title.value.trim() ? title.value.trim() : "Your title will appear here";
-      pDesc.textContent = desc.value.trim() ? desc.value.trim() : "Your description will appear here.";
-    }
-
-    title.addEventListener("input", syncText);
-    desc.addEventListener("input", syncText);
-
-    // Custom file buttons
-    chooseBtn.addEventListener("click", () => fileInput.click());
-    clearBtn.addEventListener("click", clearPreview);
-
-    fileInput.addEventListener("change", (e) => {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return clearPreview();
-      setPreviewFromFile(file);
-    });
-
-    // Reset should also clear preview
-    form.addEventListener("reset", () => {
-      // wait for native reset then sync
-      setTimeout(() => {
-        syncText();
-        clearPreview();
-      }, 0);
-    });
-
-    // Demo submit (no backend)
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const chosen = fileInput.files && fileInput.files[0];
-      if (!title.value.trim() || !desc.value.trim() || !chosen) {
-        alert("Please add a title, description, and choose a photo or video before submitting.");
-        return;
-      }
-
-      // Replace this with your API call (fetch/AJAX) later.
-      alert("Tip submitted (demo). Wire this form to your backend to store the upload + details.");
-    });
-
-    // Initial sync
-    syncText();
+    };
   </script>
 </body>
 </html>
