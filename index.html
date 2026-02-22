@@ -309,8 +309,8 @@
           <p class="pDesc" id="pDesc">Your description will appear here.</p>
         </div>
 
-        <!-- Submit button moved below preview section (as requested) -->
-        <button class="primaryBtn" id="submitBtn" type="button" disabled>
+        <!-- Submit button is ONLY visible after a file is selected -->
+        <button class="primaryBtn" id="submitBtn" type="button" disabled style="display:none;">
           Upload a file to submit
         </button>
       </aside>
@@ -365,11 +365,14 @@
       return fileEl.files && fileEl.files.length > 0;
     }
 
-    function isValid() {
-      return hasFile() && titleEl.value.trim() && descEl.value.trim();
+    function updateSubmitVisibility() {
+      // Only show submit button after a file is selected
+      submitBtn.style.display = hasFile() ? "block" : "none";
     }
 
     function updateButton() {
+      updateSubmitVisibility();
+
       if (!hasFile()) {
         submitBtn.disabled = true;
         submitBtn.textContent = "Upload a file to submit";
